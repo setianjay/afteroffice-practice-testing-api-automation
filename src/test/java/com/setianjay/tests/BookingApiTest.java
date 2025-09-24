@@ -2,6 +2,7 @@ package com.setianjay.tests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.setianjay.base.BaseTest;
+import com.setianjay.enums.HttpStatus;
 import com.setianjay.enums.Method;
 import com.setianjay.models.request.booking.BookingAuthRequest;
 import com.setianjay.models.response.booking.*;
@@ -59,7 +60,7 @@ public class BookingApiTest extends BaseTest {
         executeRequest(Method.POST, "/auth", bookingAuthRequestBody, headers, null, null);
         BookingAuthResponse response = deserializeResponse(getResponse().asString(), BookingAuthResponse.class);
 
-        assertEquals(getResponse().statusCode(), 200);
+        assertEquals(getResponse().statusCode(), HttpStatus.OK.code());
         assertNotNull(response.getToken());
         setToken(response.getToken());
         LoggerUtils.logTestEnd(logger, getClazzName(), getTestName());
@@ -73,7 +74,7 @@ public class BookingApiTest extends BaseTest {
         executeRequest(Method.POST, "/booking", bookingBodyRequest, null, null, null);
         BookingCreateResponse bookingCreateResponse = deserializeResponse(getResponse().asString(), BookingCreateResponse.class);
 
-        assertEquals(getResponse().statusCode(), 200);
+        assertEquals(getResponse().statusCode(), HttpStatus.OK.code());
         assertNotNull(bookingCreateResponse);
         assertEquals(bookingCreateResponse.getBooking(), bookingBodyRequest);
         setId(bookingCreateResponse.getBookingid());
@@ -94,7 +95,7 @@ public class BookingApiTest extends BaseTest {
         executeRequest(Method.PUT, "/booking/{id}", bookingBodyRequest, customHeader, null, requestPaths);
         BookingResponse bookingUpdateResponse = deserializeResponse(getResponse().asString(), BookingResponse.class);
 
-        assertEquals(getResponse().statusCode(), 200);
+        assertEquals(getResponse().statusCode(), HttpStatus.OK.code());
         assertNotNull(bookingUpdateResponse);
         assertEquals(bookingUpdateResponse, bookingBodyRequest);
         LoggerUtils.logTestEnd(logger, getClazzName(), getTestName());
@@ -114,7 +115,7 @@ public class BookingApiTest extends BaseTest {
         executeRequest(Method.PATCH, "/booking/{id}", bookingBodyRequest, customHeader, null, requestPaths);
         BookingResponse bookingPartialUpdateResponse = deserializeResponse(getResponse().asString(), BookingResponse.class);
 
-        assertEquals(getResponse().statusCode(), 200);
+        assertEquals(getResponse().statusCode(), HttpStatus.OK.code());
         assertNotNull(bookingPartialUpdateResponse);
         assertEquals(bookingPartialUpdateResponse.getFirstname(), bookingBodyRequest.getFirstname());
         assertEquals(bookingPartialUpdateResponse.getLastname(), bookingBodyRequest.getLastname());
@@ -131,7 +132,7 @@ public class BookingApiTest extends BaseTest {
         executeRequest(Method.GET, "/booking/{id}", null, null, null, requestPaths);
         BookingResponse bookingResponse = deserializeResponse(getResponse().asString(), BookingResponse.class);
 
-        assertEquals(getResponse().statusCode(), 200);
+        assertEquals(getResponse().statusCode(), HttpStatus.OK.code());
         assertNotNull(bookingResponse);
         LoggerUtils.logTestEnd(logger, getClazzName(), getTestName());
     }
@@ -150,7 +151,7 @@ public class BookingApiTest extends BaseTest {
         executeRequest(Method.DELETE, "/booking/{id}", null,customHeader, null, requestPaths);
         String bookingDeleteResponse = getResponse().asString();
 
-        assertEquals(getResponse().statusCode(), 201);
+        assertEquals(getResponse().statusCode(), HttpStatus.CREATED.code());
         assertNotNull(bookingDeleteResponse);
         assertEquals(bookingDeleteResponse, "Created");
         LoggerUtils.logTestEnd(logger, getClazzName(), getTestName());
@@ -164,7 +165,7 @@ public class BookingApiTest extends BaseTest {
         executeRequest(Method.GET, "/booking", null, null, null, null);
         List<BookingIdResponse> listBookingIdResponse = deserializeResponseToList(getResponse().asString(), BookingIdResponse.class);
 
-        assertEquals(getResponse().statusCode(), 200);
+        assertEquals(getResponse().statusCode(), HttpStatus.OK.code());
         assertFalse(listBookingIdResponse.isEmpty());
         LoggerUtils.logTestEnd(logger, getClazzName(), getTestName());
     }

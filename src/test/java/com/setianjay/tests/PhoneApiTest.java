@@ -2,6 +2,7 @@ package com.setianjay.tests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.setianjay.base.BaseTest;
+import com.setianjay.enums.HttpStatus;
 import com.setianjay.enums.Method;
 import com.setianjay.models.response.phone.PhoneResponse;
 import com.setianjay.models.response.phone.PhoneSpecificationResponse;
@@ -44,7 +45,7 @@ public class PhoneApiTest extends BaseTest {
         executeRequest(Method.GET, "/objects", null, null,null, null);
         List<PhoneResponse> jsonToObj = deserializeResponseToList(getResponse().asString(), PhoneResponse.class);
 
-        assertEquals(getResponse().statusCode(), 200);
+        assertEquals(getResponse().statusCode(), HttpStatus.OK.code());
         assertEquals(jsonToObj.size(), 13);
         LoggerUtils.logTestEnd(logger, getClazzName(), getTestName());
     }
@@ -58,7 +59,7 @@ public class PhoneApiTest extends BaseTest {
         }});
         PhoneResponse actualPhoneResponse = deserializeResponse(getResponse().asString(), PhoneResponse.class);
 
-        assertEquals(getResponse().statusCode(), 200);
+        assertEquals(getResponse().statusCode(), HttpStatus.OK.code());
         assertEquals(actualPhoneResponse, expectedPhoneResponse);
         LoggerUtils.logTestEnd(logger, getClazzName(), getTestName());
     }
